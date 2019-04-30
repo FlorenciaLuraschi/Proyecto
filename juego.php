@@ -1,9 +1,16 @@
-<?php include_once 'includes/head.php'; ?>
+<?php
+include_once 'includes/head.php';
+include_once 'controladores/validar_login.php';
+if(!isset($_SESSION["email"])) {
+    header("location:index.php");
+    exit;
+}
+?>
 <title>Proyecto FloPaTin-Juegos</title>
 </head>
 <body class="body_juegos">
   <header id="tope" class="encabezado">
-    <?php include_once 'includes/navbar.php'; ?>
+    <?php include_once 'includes/navbar_user.php'; ?>
     <?php include_once 'includes/carrusel.php'; ?>
   </header>
   <div class="container p-0">

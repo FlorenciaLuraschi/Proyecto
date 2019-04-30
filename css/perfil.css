@@ -53,11 +53,10 @@
   font-weight: 700;
   font-size: 12px;
 }
-/*.foto_usuario{
-  width: 200px;
-  height: 200px;
-  margin: 15px;
-}*/
+.foto_usuario img{
+  width: 100%;
+  height: 100%;
+}
 .estadoperfil{
   padding-left: 10px;
   padding-bottom: 10px;

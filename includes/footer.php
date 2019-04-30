@@ -1,5 +1,5 @@
 <footer class="footer">
-  <div class="contenedorfooter mt-4">
+  <div class="contenedorfooter">
   <section class="sectionfooter">
        <ul class="container-fluid list-unstyled list-inline mb-0">
          <li class="list-inline-item">

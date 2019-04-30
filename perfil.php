@@ -1,9 +1,17 @@
-<?php include_once 'includes/head.php'; ?>
+<?php
+include_once("controladores/validar_login.php");
+include_once 'includes/head.php';
+if(!isset($_SESSION["email"])) {
+    header("location:index.php");
+    exit;
+}
+?>
+
 <title>Proyecto FloPaTin-Perfil</title>
 </head>
 <body class=body-perfil>
   <header id="tope" class="encabezado">
-    <?php include_once 'includes/navbar.php'; ?>
+    <?php include_once 'includes/navbar_user.php'; ?>
   </header>
 
   <div class="container-fluid">
@@ -14,9 +22,9 @@
             <div class="card targeta_perfil">
               <div class="card-body cuadroperfil1">
                     <h5 class="card-title">Miembro desde</h5>
-                    <p class="card-text dato_usuario">Abril 2019</p>
+                    <p class="card-text dato_usuario"><?=$_SESSION["fecharegistro"];?></p>
                     <h5 class="card-title">País</h5>
-                    <p class="card-text dato_usuario">Argentina</p>
+                    <p class="card-text dato_usuario"><?=$_SESSION["pais"];?></p>
                     <h5 class="card-title">Puntos totales actuales</h5>
                     <p class="card-text puntos_actuales">25000</p>
               </div>
@@ -44,11 +52,13 @@
           <article class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
             <!--foto de perfil-->
             <div class="card targeta_perfil">
-              <img src="img/unicornio.jpg" class="card-img-top foto_usuario" alt="imganenperfil">
-                <div class="card-body cuadroperfil1">
-                    <h5 class="card-title">Nombre de usuario o Nick</h5>
-                    <p class="card-text tiempoperfil">Activo hace 20 minutos</p>
-                </div>
+              <div class="foto_usuario">
+                <img src="imagenes/<?=$_SESSION["foto"];?>" class="card-img-top" alt="imganenperfil">
+              </div>
+              <div class="card-body cuadroperfil1">
+                  <h5 class="card-title"><?=$_SESSION["nombreUsuario"];?></h5>
+                  <p class="card-text tiempoperfil">Activo hace 20 minutos</p>
+              </div>
             </div>
           </article>
           <article class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">

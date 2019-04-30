@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {"nombre":"","apellido":"Li","nombreUsuario":null,"email":"tingtingli_love99@hotmail.com","password":"$2y$10$cxC4pRxZirMPLBCpMbHw8OZI8akB7AKyHiYkEXaoufC91bpv2CZLa"}
 {"nombre":" Ting   ","apellido":"Li","nombreUsuario":"hhh","email":"tingtingli_love99@hotmail.com","password":"$2y$10$uWnS2\/7p94IuPrMHQBWaw.vZoF0AgAdHWeXVIWA8tb6RvmhvZylvu"}
 {"nombre":"","apellido":"li","nombreUsuario":"","email":"herni@dh.com","password":"$2y$10$SEkV.sPBK4EkRULrvX3xnuPhN4xiOrdRykIgPqnVB\/r5gFxbf4SnO"}
@@ -22,3 +23,6 @@
 {"nombre":"Tingting","apellido":"Li","nombreUsuario":"qweqwe","email":"ltingting48@gmail.com","password":"$2y$10$lmNy.mqRFnHtxIIeDFnSFOIoHScawlrVxzfHtGGZ9GPr2CMdwIM5C","foto":"5cc765be3e10e.png","perfil":1}
 {"nombre":"Tingting","apellido":"Li","nombreUsuario":"qweqwe","email":"hola@hotmail.com","password":"$2y$10$bQOwtlAw9A5Am69pGtdBj.9irsgLHg7ivkTDwXg6dx51Yt6cAY\/Tq","foto":"5cc799f4633fe.png","perfil":1}
 {"nombre":"Tingting","apellido":"Li","nombreUsuario":"Hola","email":"fulano@hotmail.com","password":"$2y$10$rswddhli6XO8Ax0K4KcluuRxUeDKV\/GYctZXuc8u9eyvp5UHV6DKm","foto":"5cc79ea06666d.png","perfil":1}
+=======
+{"nombre":"Hola","apellido":"Mundo","nombreUsuario":"Hola Mundo","email":"Hola@mundo.com","password":"$2y$10$45tVZELgwPu7eNZYAAEl0uZ5rjocQqXJtiV6zn.BkmkfnfPR\/oJWG","foto":"5cc79cb5c4556.jpg","pais":"Camerun","fecharegistro":"Abril 2019","perfil":1}
+>>>>>>> 7a8f19c4f884cd9ed9482e245af58447293d6cd2

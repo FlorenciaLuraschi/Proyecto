@@ -1,9 +1,16 @@
-<?php include_once 'includes/head.php'; ?>
+<?php
+include_once 'includes/head.php';
+include_once 'controladores/validar_login.php';
+if(!isset($_SESSION["email"])) {
+    header("location:index.php");
+    exit;
+}
+?>
 <title>Proyecto FloPaTin-Inicio</title>
 </head>
 <body class=body-inicio>
   <header id="tope" class="encabezado">
-    <?php include_once 'includes/navbar.php'; ?>
+    <?php include_once 'includes/navbar_user.php'; ?>
     <?php include_once 'includes/carrusel.php'; ?>
   </header>
   <div class="container p-0">
@@ -23,10 +30,10 @@
            <br>
            <p class="ayudas">En esta sección de la pagina la idea es que se puendan ir publicando los comentarios. Quedando como una sala de chat general y así poder hablar entre todos.</p>
              <div class="media">
-             <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
+             <img class="d-flex rounded-circle avatar z-depth-1-half mr-3" src="imagenes/<?=$_SESSION["foto"];?>"
                alt="Avatar">
              <div class="media-body chatejemplo">
-               <h5>Anna Smith</h5>
+               <h5><?=$_SESSION["nombreUsuario"];?></h5>
                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus
                odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate
                fringilla. Donec lacinia congue felis in faucibus.

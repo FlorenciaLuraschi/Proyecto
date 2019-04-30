@@ -6,11 +6,11 @@
 }
 .body_registro{
   background-image: url(../img/card-registro.jpg);
-  background-repeat: no-repeat;
+  background-repeat: no-repeat;*/
   background-size: cover;
 }
 .formlogin, .formulario1{
-  width: 450px;
+  max-width: 450px;
   background: rgba(54, 77, 63, 0.8);
   padding: 10px;
   border-radius: 5px;
@@ -41,6 +41,10 @@
 .formulario1 h2{
   font-size: 28px;
 }
+.formlogin p, .formulario1 p{
+  color: white;
+  font-family: 'Merienda', cursive;
+}
 .formlogin button:hover, .formulario1 button:hover{
   cursor:pointer;
 }
@@ -63,4 +67,7 @@
 }
 .olvidoPassword,.Registrese, .Login{
   text-align: center;
+}
+.formlogin span{
+  color: #ff9301;
 }

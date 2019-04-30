@@ -3,7 +3,7 @@
 </head>
 <body class=body-inicio>
   <header id="tope" class="encabezado">
-    <?php include_once 'includes/navbar.php'; ?>
+    <?php include_once 'includes/navbar_user.php'; ?>
     <?php include_once 'includes/carrusel.php'; ?>
   </header>
   <div class="container-fluid">

@@ -13,3 +13,7 @@ nav h2{
   font-size: 32px;
   margin-top:8px;
 }
+.navbarra_log{
+  display: flex;
+  justify-content: space-between;
+}
