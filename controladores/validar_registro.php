@@ -1,5 +1,5 @@
 <?php
-  function validar($datos){
+  function validar($datos,$bandera){
    $errores=[];
 
    $nombre= trim($datos["nombre"]);
@@ -38,8 +38,7 @@
      $errores["reconfi-password"]="No coinciden las contraseñas";
    }
 
-
-   if (isset($_FILES)) {
+  if($bandera == "registro"){
     if ($_FILES["foto"]["error"]!=UPLOAD_ERR_OK) {
       $errores["foto"]="Debe subir una foto";
     }
@@ -48,15 +47,15 @@
     if ($ext !="jpg" && $ext !="png") {
       $errores["foto"]="Debe ser un archivo jpg ó png";
     }
-  }
+
    return $errores;
  }
 
-function persistir($campo){
-  if (isset($_POST[$campo])) {
-    return $_POST[$campo];
-  }
-}
+ function persistir($campo){
+   if (isset($_POST[$campo])) {
+     return $_POST[$campo];
+   }
+ }
 
 function armarFoto($imagen){ /*amar la ruta para guadar el archivo*/
   $nombre = $imagen["foto"]["name"];
@@ -133,4 +132,5 @@ if (file_exists("usuarios.json")) {
 
 }
 
- ?>
+}
+?>

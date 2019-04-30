@@ -4,7 +4,7 @@ include_once("controladores/validar_registro.php");
 include_once("controladores/validar_login.php");
 
   if ($_POST) {
-    $errores= validar($_POST);
+    $errores= validar($_POST, "registro");
     if (count($errores)==0) {
 
       $usuario=checkearEmail($_POST["email"]);
@@ -37,24 +37,29 @@ include_once("controladores/validar_login.php");
   <header id="tope" class="encabezado">
     <?php include_once 'includes/navbar.php'; ?>
   </header>
-  <?php if(isset($errores)):
-    echo "<ul class='alert alert-danger text-center'>";
+
+  <?php
+  if(isset($errores)):?>
+    <ul class='alert alert-danger text-center'>
+    <?php
     foreach ($errores as $key => $value) :?>
       <li><?=$value;?> </li>
-    <?php endforeach;
-    echo "</ul>";
-    endif;?>
+    <?php endforeach;?>
+    </ul>
+    <?php endif;?>
+
     <form class="formulario1" action="" method="post" enctype="multipart/form-data">
-      <h2>Create una cuenta para sociabilizar y aprender</h2>
-      <label for="nombre" class="label1">Nombre</label>
-      <input type="text" name="nombre" value="<?=(isset($errores["nombre"]))?"" :persistir("nombre");?>" class="field">
+     <h2>Create una cuenta para sociabilizar y aprender</h2>
+     <label for="nombre" class="label1">Nombre</label>
+     <input type="text" name="nombre" value="<?=(isset($errores["nombre"]))?"" : persistir("nombre");?>" class="field">
+
 
 
       <label for="apellido" class="label1">Apellido</label>
-      <input type="text" name="apellido" value="<?=(isset($errores["apellido"]))?"" :persistir("apellido");?>" class="field">
+      <input type="text" name="apellido" value="<?=(isset($errores["apellido"]))?"" : persistir("apellido");?>" class="field">
 
       <label for="nombre-de-usuario" class="label1">Nombre de Usuario</label>
-      <input type="text" name="nombre-de-usuario" class="field" value="<?=(isset($errores["nombre-de-usuario"]))?"" :persistir("nombre-de-usuario");?>">
+      <input type="text" name="nombre-de-usuario" class="field" value="<?=(isset($errores["nombre-de-usuario"]))?"" : persistir("nombre-de-usuario");?>">
 
       <label for="email" class="label1">Mail de referencia</label>
       <input type="email" name="email" value="<?=(isset($errores["email"]))?"" :persistir("email");?>" class="field">
@@ -71,8 +76,8 @@ include_once("controladores/validar_login.php");
       <label for="nacimiento" class="label1">Fecha de nacimiento</label>
       <input type="date" name="nacimiento" value="<?=(isset($errores["nacimiento"]))?"" :persistir("nacimiento");?>" class="field">
       <div class="sexo">
-           <label for="sex" class="label1">Sexo</label><br>
-           <input type="radio" name="sex" value="M" class="sexo">Masculino <br>
+           <label for="sex" class="label1">Sexo</label><br/>
+           <input type="radio" name="sex" value="M" class="sexo">Masculino <br/>
            <input type="radio" name="sex" value="F" class="sexo">Femenino
       </div>
       <br>

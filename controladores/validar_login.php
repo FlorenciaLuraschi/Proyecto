@@ -40,33 +40,33 @@ function validar_login($datos){
 //y si es así poder traer sus datos de sessión.
 
 //tengo la funcion para abrir la base de datos
-function abrirBaseDatos(){//sin parametros, armo una funcion para abrir el archivo json
-  if(file_exists("usuarios.json")){
-  $baseDatosJson=file_get_contents("usuarios.json");//atrapamos el archivo json,pero me da todo un reglon vacio, que lo tomaria como otro usuarui
-  $baseDatosJson= explode(PHP_EOL,$baseDatosJson); //primero genera la posición 0 todos los datos, en la dos (1) pone el espacio vacio
-  array_pop($baseDatosJson);
-  foreach ($baseDatosJson as $usuarios) {
+//function abrirBaseDatos(){//sin parametros, armo una funcion para abrir el archivo json
+  //if(file_exists("usuarios.json")){
+  //$baseDatosJson=file_get_contents("usuarios.json");//atrapamos el archivo json,pero me da todo un reglon vacio, que lo tomaria como otro usuarui
+  //$baseDatosJson= explode(PHP_EOL,$baseDatosJson); //primero genera la posición 0 todos los datos, en la dos (1) pone el espacio vacio
+  //array_pop($baseDatosJson);
+  //foreach ($baseDatosJson as $usuarios) {
     //voy generando el array asociativo con todos los datos del Usuario
-    $arrayUsuarios[]=json_decode($usuarios,true);//tenemos nuesta base de datos armada en un array asociativo
-  }
-  return $arrayUsuarios; //esto ahora va hacia la variable usuario, se hizo un generico para abrir archivos json
-}else{
-  return null;
-}
-}
+    //$arrayUsuarios[]=json_decode($usuarios,true);//tenemos nuesta base de datos armada en un array asociativo
+  //}
+  //return $arrayUsuarios; //esto ahora va hacia la variable usuario, se hizo un generico para abrir archivos json
+//}else{
+  //return null;
+//}
+//}
 
 //funcion que busca el correo y comparo en mi base de datos si existe
-function buscarEmail($email){
-  $usuarios=abrirBaseDatos();
-  if ($usuarios!=null) {
-    foreach ($usuarios as $usuario) {
-      if($email === $usuario["email"]){
-        return $usuario;
-      }
-    }
-  }
-  return null;
-}
+//function buscarEmail($email){
+  //$usuarios=abrirBaseDatos();
+  //if ($usuarios!=null) {
+    //foreach ($usuarios as $usuario) {
+      //if($email === $usuario["email"]){
+        //return $usuario;
+      //}
+    //}
+  //}
+  //return null;
+//}
 //ahora debo hacer una función para que si encontró al usuario extraer sus datos
 function seteoUsuario($user,$dato){
   $_SESSION["nombreUsuario"]=$user["nombreUsuario"];
