@@ -99,22 +99,41 @@ function guardar($usuario){
 
 function checkearEmail($email){
   $usuarios= abrirBaseDatos();
-
-   foreach($usuarios as $usuario){
-    if ($email== $usuario["email"]) {
-      return null;
+  if($usuarios !==null){
+    foreach($usuarios as $usuario){
+     if ($email== $usuario["email"]) {
+         return $usuario;
+      }
     }
    }
+   return null;
+}
+
+function checkearUsuario($nombreUsuario){
+  $usuarios= abrirBaseDatos();
+  if($usuarios !==null){
+    foreach($usuarios as $usuario){
+     if ($nombreUsuario== $usuario["nombreUsuario"]) {
+         return $usuario;
+      }
+    }
+   }
+   return null;
 }
 
 function abrirBaseDatos(){
- $baseDatosJson= file_get_contents("usuarios.json");
- $baseDatosJson= explode(PHP_EOL, $baseDatosJson);
-   array_pop($baseDatosJson);
-   foreach ($baseDatosJson as $usuarios) {
-     $arrayUsuarios[]=json_decode($usuarios, true);
-   }
-   return $arrayUsuarios;
+if (file_exists("usuarios.json")) {
+  $baseDatosJson= file_get_contents("usuarios.json");
+  $baseDatosJson= explode(PHP_EOL, $baseDatosJson);
+    array_pop($baseDatosJson);
+    foreach ($baseDatosJson as $usuarios) {
+      $arrayUsuarios[]=json_decode($usuarios, true);
+}
+    return $arrayUsuarios;
+  }else {
+    return null;
+  }
+
 }
 
  ?>

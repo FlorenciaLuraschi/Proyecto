@@ -1,19 +1,26 @@
 <?php
- include_once("controladores/funciones.php");
+ include_once("controladores/funciones-registracion.php");
    if ($_POST) {
      $errores= validar($_POST);
      if (count($errores)==0) {
-       $foto= armarFoto($_FILES);
+
        $usuario=checkearEmail($_POST["email"]);
-       if ($_POST["email"] == $usuario["email"]){
+       if ($usuario !==null){
            $errores["email"]= "El mail ingresado ya existe. Ingrese otro mail";
+        }
+       $usuario=checkearUsuario($_POST["nombre-de-usuario"]);
+       if ($usuario !==null) {
+          $errores["nombre-de-usuario"]= "El nombre de usuario ingresado ya exite. Ingrese otro nombre de usuario";
+       }else {
+         $foto= armarFoto($_FILES);
+         $registro= armarRegistro($_POST, $foto);
+         guardar($registro);
+
+         header("location:index.php");
+         exit;
        }
 
-       $registro= armarRegistro($_POST, $foto);
-       guardar($registro);
 
-       header("location:index.php");
-       exit;
      }
    }
 
@@ -30,7 +37,7 @@
   <link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Merienda:400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/master.css">
+  <link rel="stylesheet" href="css/formularioslogin_registracion.css">
   <title>Formulario de Registración</title>
 </head>
 <body class=body_juegos>
@@ -50,16 +57,16 @@
             <a class="nav-link" href="formularioDeRegistracion.php">Registrarse<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="inicio.html">Inicio <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="inicio.php">Inicio <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="juego.html">Juegos</a>
+            <a class="nav-link" href="juego.php">Juegos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="perfil.html">Perfil</a>
+            <a class="nav-link" href="perfil.php">Perfil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="ayuda.html">Ayuda</a>
+            <a class="nav-link" href="ayuda.php">Ayuda</a>
           </li>
         </ul>
       </div>
@@ -81,6 +88,7 @@
       <h2>Create una cuenta para sociabilizar y aprender</h2>
       <label for="nombre" class="label1">Nombre</label>
       <input type="text" name="nombre" value="<?=(isset($errores["nombre"]))?"" :persistir("nombre");?>" class="field">
+
 
       <label for="apellido" class="label1">Apellido</label>
       <input type="text" name="apellido" value="<?=(isset($errores["apellido"]))?"" :persistir("apellido");?>" class="field">
