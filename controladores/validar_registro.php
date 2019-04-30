@@ -118,7 +118,6 @@ function checkearUsuario($nombreUsuario){
    return null;
 }
 
-<<<<<<< HEAD:controladores/funciones-registracion.php
 function abrirBaseDatos(){
 if (file_exists("usuarios.json")) {
   $baseDatosJson= file_get_contents("usuarios.json");
@@ -133,8 +132,5 @@ if (file_exists("usuarios.json")) {
   }
 
 }
-=======
-
->>>>>>> 7a8f19c4f884cd9ed9482e245af58447293d6cd2:controladores/validar_registro.php
 
  ?>

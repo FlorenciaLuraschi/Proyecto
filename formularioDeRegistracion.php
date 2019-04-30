@@ -2,23 +2,33 @@
 include_once 'includes/head.php';
 include_once("controladores/validar_registro.php");
 include_once("controladores/validar_login.php");
+
   if ($_POST) {
     $errores= validar($_POST);
     if (count($errores)==0) {
-      $usuario=buscarEmail($_POST["email"]);
-      if ($usuario!==null){
+
+      $usuario=checkearEmail($_POST["email"]);
+      if ($usuario !==null){
           $errores["email"]= "El mail ingresado ya existe. Ingrese otro mail";
-      }else{
+       }
+      $usuario=checkearUsuario($_POST["nombre-de-usuario"]);
+      if ($usuario !==null) {
+         $errores["nombre-de-usuario"]= "El nombre de usuario ingresado ya exite. Ingrese otro nombre de usuario";
+      }else {
         $foto= armarFoto($_FILES);
         $registro= armarRegistro($_POST, $foto);
         guardar($registro);
+
         header("location:index.php");
         exit;
       }
+
+
     }
   }
 
 ?>
+
 
 <title>Proyecto FloPaTin-Registración</title>
 </head>
