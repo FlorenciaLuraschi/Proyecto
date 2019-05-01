@@ -51,12 +51,12 @@ include_once("controladores/validar_login.php");
     <form class="formulario1" action="" method="post" enctype="multipart/form-data">
      <h2>Create una cuenta para sociabilizar y aprender</h2>
      <label for="nombre" class="label1">Nombre</label>
-     <input type="text" name="nombre" value="<?=(isset($errores["nombre"]))?"" : persistir("nombre");?>" class="field">
+     <input type="text" name="nombre" value="<?=(isset($errores["nombre"]))?"" :persistir("nombre");?>" class="field">
 
 
 
       <label for="apellido" class="label1">Apellido</label>
-      <input type="text" name="apellido" value="<?=(isset($errores["apellido"]))?"" : persistir("apellido");?>" class="field">
+      <input type="text" name="apellido" value="<?=(isset($errores["apellido"]))?"" :persistir("apellido");?>" class="field">
 
       <label for="nombre-de-usuario" class="label1">Nombre de Usuario</label>
       <input type="text" name="nombre-de-usuario" class="field" value="<?=(isset($errores["nombre-de-usuario"]))?"" : persistir("nombre-de-usuario");?>">
@@ -65,26 +65,27 @@ include_once("controladores/validar_login.php");
       <input type="email" name="email" value="<?=(isset($errores["email"]))?"" :persistir("email");?>" class="field">
 
       <label for="password" class="label1">Contraseña</label>
-      <input type="password" name="password" value="" class="field">
+      <input type="password" name="password" value="<?=(isset($errores["password"]))?"" :persistir("password");?>" class="field">
       <small id="passwordHelpInline" class="text-muted smallpass">
       Utiliza ocho caracteres como mínimo con una combinación de letras, números y símbolos
       </small><br><br>
 
       <label for="reconfi-password" class="label1">Reconfirmación de la contraseña</label>
-      <input type="password" name="reconfi-password" value="" class="field">
+      <input type="password" name="reconfi-password" value="<?=(isset($errores["reconfi-password"]))?"" :persistir("reconfi-password");?>" class="field">
 
       <label for="nacimiento" class="label1">Fecha de nacimiento</label>
       <input type="date" name="nacimiento" value="<?=(isset($errores["nacimiento"]))?"" :persistir("nacimiento");?>" class="field">
       <div class="sexo">
            <label for="sex" class="label1">Sexo</label><br/>
            <input type="radio" name="sex" value="M" class="sexo">Masculino <br/>
-           <input type="radio" name="sex" value="F" class="sexo">Femenino
+           <input type="radio" name="sex" value="F" class="sexo">Femenino  <br/>
+           <input type="radio" name="sex" value="O" class="sexo">Otros
       </div>
       <br>
          <div class="pais">
            <label for="pais" class="label1">Pais</label>
-           <select class="" name="pais">
-             <option hidden value="">Seleccione su país</option>
+           <select class="" name="pais" value="<?=(isset($errores["pais"]))?"" :persistir("pais");?>">
+             <option hidden >Seleccione su país</option>
              <optgroup label="America">
                <option value="Argentina">Argentina</option>
                <option value="Brasil">Brasil</option>

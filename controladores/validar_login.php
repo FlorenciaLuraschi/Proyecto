@@ -40,33 +40,54 @@ function validar_login($datos){
 //y si es así poder traer sus datos de sessión.
 
 //tengo la funcion para abrir la base de datos
-//function abrirBaseDatos(){//sin parametros, armo una funcion para abrir el archivo json
-  //if(file_exists("usuarios.json")){
-  //$baseDatosJson=file_get_contents("usuarios.json");//atrapamos el archivo json,pero me da todo un reglon vacio, que lo tomaria como otro usuarui
-  //$baseDatosJson= explode(PHP_EOL,$baseDatosJson); //primero genera la posición 0 todos los datos, en la dos (1) pone el espacio vacio
-  //array_pop($baseDatosJson);
-  //foreach ($baseDatosJson as $usuarios) {
+function abrirBaseDatos(){//sin parametros, armo una funcion para abrir el archivo json
+  if(file_exists("usuarios.json")){
+  $baseDatosJson=file_get_contents("usuarios.json");//atrapamos el archivo json,pero me da todo un reglon vacio, que lo tomaria como otro usuarui
+  $baseDatosJson= explode(PHP_EOL,$baseDatosJson); //primero genera la posición 0 todos los datos, en la dos (1) pone el espacio vacio
+  array_pop($baseDatosJson);
+  foreach ($baseDatosJson as $usuarios) {
     //voy generando el array asociativo con todos los datos del Usuario
-    //$arrayUsuarios[]=json_decode($usuarios,true);//tenemos nuesta base de datos armada en un array asociativo
-  //}
-  //return $arrayUsuarios; //esto ahora va hacia la variable usuario, se hizo un generico para abrir archivos json
-//}else{
-  //return null;
-//}
-//}
+    $arrayUsuarios[]=json_decode($usuarios,true);//tenemos nuesta base de datos armada en un array asociativo
+  }
+  return $arrayUsuarios; //esto ahora va hacia la variable usuario, se hizo un generico para abrir archivos json
+}else{
+  return null;
+}
+}
 
 //funcion que busca el correo y comparo en mi base de datos si existe
-//function buscarEmail($email){
-  //$usuarios=abrirBaseDatos();
-  //if ($usuarios!=null) {
-    //foreach ($usuarios as $usuario) {
-      //if($email === $usuario["email"]){
-        //return $usuario;
-      //}
-    //}
-  //}
-  //return null;
-//}
+function buscarEmail($email){
+  $usuarios=abrirBaseDatos();
+  if ($usuarios!=null) {
+    foreach ($usuarios as $usuario) {
+      if($email === $usuario["email"]){
+        return $usuario;
+      }
+    }
+  }
+  return null;
+}
+//quiero buscar el nombre de usuario en la base de datos para que luego pueda cambiar el dato
+function buscarNombreUsuario($nombreUsuario){
+  $usuarios=abrirBaseDatos();
+  foreach ($usuarios as $usuario) {
+  if($nombreUsuario === $usuario["nombreUsuario"]){
+    return $usuario;
+    }
+    }
+  return null;
+}
+//quiero buscar la foto del usuario en la base de datos para que luego pueda cambiar el dato
+function buscarFoto($foto){
+  $usuarios=abrirBaseDatos();
+  foreach ($usuarios as $usuario) {
+  if($foto === $usuario["foto"]){
+    return $usuario;
+    }
+    }
+  return null;
+}
+
 //ahora debo hacer una función para que si encontró al usuario extraer sus datos
 function seteoUsuario($user,$dato){
   $_SESSION["nombreUsuario"]=$user["nombreUsuario"];
@@ -90,5 +111,93 @@ function validarUsuario(){
         return true;
     }else{
         return false;
+    }
+}
+
+function olvidarpass($datos){
+    $usuarios = abrirBaseDatos();
+    foreach ($usuarios as $key=>$usuario) {
+        if($datos["email"]==$usuario["email"]){
+            $usuario["password"]= password_hash($datos["password"],PASSWORD_DEFAULT);
+            $usuarios[$key] = $usuario;
+        }
+        $usuarios[$key] = $usuario;
+    }
+
+    unlink("usuarios.json");
+    foreach ($usuarios as  $usuario) {
+        $jsusuario = json_encode($usuario);
+        file_put_contents('usuarios.json',$jsusuario. PHP_EOL,FILE_APPEND);
+    }
+}
+
+function validarOlvidar($datos){
+ $errores=[];
+
+ $email=trim($datos["email"]);
+ if (empty($email)) {
+   $errores["email"]="Complete su mail";
+ }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+   $errores["email"]="Email invalido";
+ }
+
+ $password= trim($datos["password"]);
+ $repassword= trim($datos["reconfi-password"]);
+ if (empty($password)) {
+   $errores["password"]="Complete su contraseña";
+ }elseif (strlen($password)<8) {
+   $errores["password"]="La contraseña debe tener minimo 8 caracteres";
+ }elseif (!preg_match('/[a-z]/', $password)) {
+   $errores["password"]="La contraseña deber contener al menos una letra";
+ }elseif (!preg_match('/[0-9]/', $password)) {
+   $errores["password"]="La contraseña deber contener al menos un numero";
+ }elseif ($password!=$repassword) {
+   $errores["reconfi-password"]="No coinciden las contraseñas";
+ }
+ return $errores;
+}
+
+function validar_configuracion($datos,$bandera1){
+ $errores=[];
+ if($bandera1 == "avatar"){
+  if ($_FILES["foto"]["error"]!=UPLOAD_ERR_OK) {
+    $errores["foto"]="Debe subir una foto";
+  }
+  $nombre=$_FILES["foto"]["name"];
+  $ext= pathinfo($nombre, PATHINFO_EXTENSION);
+  if ($ext !="jpg" && $ext !="png") {
+    $errores["foto"]="Debe ser un archivo jpg ó png";
+  }
+}else{
+  $nombreUsuario=trim($datos["nombre-de-usuario"]);
+  if (empty($nombreUsuario)) {
+    $errores["nombre-de-usuario"]= "Complete el campo con un nombre de usuario";
+  }
+}
+ return $errores;
+}
+
+function cambioFoto($datos){
+    $usuarios = abrirBaseDatos();
+    foreach ($usuarios as $key=>$usuario) {
+      $usuario["foto"]= $datos["foto"];
+            $usuarios[$key] = $usuario;
+          }
+    unlink("usuarios.json");
+    foreach ($usuarios as  $usuario) {
+        $jsusuario = json_encode($usuario);
+        file_put_contents('usuarios.json',$jsusuario. PHP_EOL,FILE_APPEND);
+    }
+}
+function cambioNombre($datos){
+    $usuarios = abrirBaseDatos();
+    foreach ($usuarios as $key=>$usuario) {
+      $usuario["nombreUsuario"]= $datos["nombreUsuario"];
+            $usuarios[$key] = $usuario;
+          }
+    unlink("usuarios.json");
+    foreach ($usuarios as  $usuario) {
+        $jsusuario = json_encode($usuario);
+        file_put_contents('usuarios.json',$jsusuario. PHP_EOL,FILE_APPEND);
     }
 }

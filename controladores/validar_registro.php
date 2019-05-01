@@ -1,5 +1,5 @@
 <?php
-  function validar($datos,$bandera){
+  function validar($datos){
    $errores=[];
 
    $nombre= trim($datos["nombre"]);
@@ -38,24 +38,25 @@
      $errores["reconfi-password"]="No coinciden las contraseñas";
    }
 
-  if($bandera == "registro"){
+
+   if (isset($_FILES)) {
     if ($_FILES["foto"]["error"]!=UPLOAD_ERR_OK) {
       $errores["foto"]="Debe subir una foto";
     }
     $nombre=$_FILES["foto"]["name"];
     $ext= pathinfo($nombre, PATHINFO_EXTENSION);
-    if ($ext !="jpg" && $ext !="png") {
-      $errores["foto"]="Debe ser un archivo jpg ó png";
+    if ($ext !="jpg" && $ext !="jpeg" && $ext !="png" && $ext !="gif") {
+      $errores["foto"]="Debe ser un archivo jpg/jpeg ó png ó gif";
     }
-
+  }
    return $errores;
  }
 
- function persistir($campo){
-   if (isset($_POST[$campo])) {
-     return $_POST[$campo];
-   }
- }
+function persistir($campo){
+  if (isset($_POST[$campo])) {
+    return $_POST[$campo];
+  }
+}
 
 function armarFoto($imagen){ /*amar la ruta para guadar el archivo*/
   $nombre = $imagen["foto"]["name"];
@@ -117,20 +118,4 @@ function checkearUsuario($nombreUsuario){
    return null;
 }
 
-function abrirBaseDatos(){
-if (file_exists("usuarios.json")) {
-  $baseDatosJson= file_get_contents("usuarios.json");
-  $baseDatosJson= explode(PHP_EOL, $baseDatosJson);
-    array_pop($baseDatosJson);
-    foreach ($baseDatosJson as $usuarios) {
-      $arrayUsuarios[]=json_decode($usuarios, true);
-}
-    return $arrayUsuarios;
-  }else {
-    return null;
-  }
-
-}
-
-}
-?>
+ ?>
