@@ -1,26 +1,28 @@
 <?php
 include_once 'includes/head.php';
-include_once 'controladores/validar_login.php';
-include_once 'controladores/validar_registro.php';
+// include_once 'controladores/validar_login.php';
+// include_once 'controladores/validar_registro.php';
+require_once("Autoload.php");
 if($_POST){
-  $errores_login= validar_login($_POST);
+  $usuario = new Usuario($_POST["email"],$_POST["password"]);
+  $errores_login = $validar->validacionLogin($usuario);
 
-if(count($errores_login)==0){
-  $usuario=buscarEmail($_POST["email"]);
-
-  if ($usuario==null) {
+if(count($errores_login) == 0){
+  $usuarioEncontrado = $json->checkearEmail($usuario->getEmail());
+  if ($usuarioEncontrado == null) {
     $errores_login["email"]="Usuario no registrado";
   }else{
-    if (password_verify($_POST["password"],$usuario["password"])===false){
+    if(Logeo::verificarPassword($usuario->getPass(),$usuarioEncontrado["password"])===false){
       $errores_login["password"]="Error en los datos verifique.";
     }else{
-      seteoUsuario($usuario,$_POST);
-    if (validarUsuario()) {
-        header("location:inicio.php");
-        exit;
+      Logeo::seteoUsuario($usuarioEncontrado);
+      if(isset($_POST["recordar"])){
+          Logeo::seteoCookie($usuarioEncontrado);
+        }
+    if (Logeo::validarUsuario()) {
+        redirect("inicio.php");
       }else {
-        header("location:formularioDeRegistracion.php");
-        exit;
+        redirect("formularioDeRegistracion.php");
       }
     }
   }

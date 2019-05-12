@@ -1,4 +1,11 @@
-<?php include_once("controladores/validar_login.php");?>
+<?php
+require_once("Autoload.php");
+// include_once 'controladores/validar_login.php';
+if(!isset($_SESSION["email"])) {
+    header("location:index.php");
+    exit;
+}
+?>
 <nav class="navbar navbar-expand-lg navbar-dark navbarra">
   <img class="logo" src="img/logo1.png" alt="logo_proyecto">
   <h2>Proyecto FloPaTin</h2>

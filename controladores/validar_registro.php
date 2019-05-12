@@ -2,15 +2,15 @@
   function validar($datos){
    $errores=[];
 
-   $nombre= trim($datos["nombre"]);
-   if (empty($nombre)) {
-      $errores["nombre"]="Complete el campo con su nombre";
-   }
-
-   $apellido= trim($datos["apellido"]);
-   if (empty($apellido)) {
-     $errores["apellido"]="Complete el campo con su apellido";
-   }
+   // $nombre= trim($datos["nombre"]);
+   // if (empty($nombre)) {
+   //    $errores["nombre"]="Complete el campo con su nombre";
+   // }
+   //
+   // $apellido= trim($datos["apellido"]);
+   // if (empty($apellido)) {
+   //   $errores["apellido"]="Complete el campo con su apellido";
+   // }
 
    $nombreUsuario=trim($datos["nombre-de-usuario"]);
    if (empty($nombreUsuario)) {
@@ -74,10 +74,10 @@ function armarFoto($imagen){ /*amar la ruta para guadar el archivo*/
 
 function armarRegistro($datos, $imagen){
   setlocale(LC_TIME,"es_ES");
-  $fecharegistro=ucfirst(strftime("%B %Y",time()));
+  $fecharegistro=ucfirst(strftime("%e de %B de %Y",time()));
   $usuario=[
-    "nombre"=> $datos["nombre"],
-    "apellido"=> $datos["apellido"],
+    // "nombre"=> $datos["nombre"],
+    // "apellido"=> $datos["apellido"],
     "nombreUsuario"=>$datos["nombre-de-usuario"],
     "email"=>$datos["email"],
     "password"=>password_hash($datos["password"], PASSWORD_DEFAULT),

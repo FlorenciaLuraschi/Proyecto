@@ -67,24 +67,6 @@ function buscarEmail($email){
   }
   return null;
 }
-//quiero buscar el nombre de usuario en la base de datos para que luego pueda cambiar el dato
-function buscarNombreUsuario($nombreUsuario){
-  $usuarios=abrirBaseDatos();
-  foreach ($usuarios as $usuario) {
-  if($nombreUsuario === $usuario["nombreUsuario"]){
-    return $usuario;
-    }
-    }
-}
-//quiero buscar la foto del usuario en la base de datos para que luego pueda cambiar el dato
-function buscarFoto($foto){
-  $usuarios=abrirBaseDatos();
-  foreach ($usuarios as $usuario) {
-  if($foto === $usuario["foto"]){
-    return $usuario;
-    }
-    }
-}
 
 //ahora debo hacer una función para que si encontró al usuario extraer sus datos
 function seteoUsuario($user,$dato){
@@ -177,27 +159,44 @@ function validar_configuracion($datos,$bandera1){
  return $errores;
 }
 
-function cambioFoto($foto){
-    $usuarios = abrirBaseDatos();
-    foreach ($usuarios as $key=>$usuario) {
-      $usuario["foto"]= $foto;
+function cambioFoto($datos, $foto){
+  $usuarios = abrirBaseDatos();
+  foreach ($usuarios as $key=>$usuario){
+      if($datos==$usuario["email"]){
+        unlink("imagenes/".$usuario["foto"]);
+          $usuario["foto"]= $foto;
+          $usuarios[$key] = $usuario;
+      }
       $usuarios[$key] = $usuario;
-          }
+  }
     unlink("usuarios.json");
     foreach ($usuarios as  $usuario) {
         $jsusuario = json_encode($usuario);
         file_put_contents('usuarios.json',$jsusuario. PHP_EOL,FILE_APPEND);
     }
 }
-function cambioNombre($datos){
+function cambioNombre($datos,$nuevoNombre){
     $usuarios = abrirBaseDatos();
     foreach ($usuarios as $key=>$usuario) {
-      $usuario["nombreUsuario"]= $datos["nombre-de-usuario"];
-            $usuarios[$key] = $usuario;
-          }
+      if($datos==$usuario["email"]){
+      $usuario["nombreUsuario"]= $nuevoNombre;
+      $usuarios[$key] = $usuario;
+  }
+      $usuarios[$key] = $usuario;
+    }
+
     unlink("usuarios.json");
     foreach ($usuarios as  $usuario) {
         $jsusuario = json_encode($usuario);
         file_put_contents('usuarios.json',$jsusuario. PHP_EOL,FILE_APPEND);
     }
+}
+//una vez hecho el cambio en la base de datos se debe volver a setear los datos cambiados
+//asi se pueden ver los cambios en el momento
+function seteoEditor($user,$bandera1){
+  if($bandera1=== "avatar"){
+    $_SESSION["foto"]=$user["foto"];
+  }else{
+    $_SESSION["nombreUsuario"]=$user["nombreUsuario"];
+  }
 }

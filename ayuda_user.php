@@ -1,4 +1,10 @@
-<?php include_once 'includes/head.php'; ?>
+<?php
+include_once 'includes/head.php';
+require_once("Autoload.php");
+if(!isset($_SESSION["email"])) {
+    header("location:index.php");
+    exit; 
+?>
 <title>Proyecto FloPaTin-Ayuda</title>
 </head>
 <body class=body-inicio>

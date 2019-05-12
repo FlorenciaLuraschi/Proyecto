@@ -1,7 +1,12 @@
 <?php
-include_once("controladores/validar_login.php");
+//include_once("controladores/validar_login.php");
 include_once 'includes/head.php';
-include_once 'controladores/validar_registro.php';
+//include_once 'controladores/validar_registro.php';
+require_once("Autoload.php");
+if(!isset($_SESSION["email"])) {
+    header("location:index.php");
+    exit;
+}
 //identifico que se envio info del formulario
 if($_POST){
 //intento determinar si viene de querer cambiar foto o nombre
@@ -9,22 +14,23 @@ if($_POST){
 
   if($_POST['form']=="form1"){//nos nos permite identificar si la información
   $bandera1="avatar";//para poder identificar cual de las validaciones hay que hacer uso la bandera
-  $errores= validar_configuracion($_POST,$bandera1);
+  $errores= $validar->validar_configuracion($_POST,$bandera1);
     if(count($errores)==0){
-      $foto= armarFoto($_FILES);
-      $usuario=buscarFoto($_POST["foto"]);
-      $registro=cambioFoto($_POST);
-      header("location:perfil.php");
-          exit;
+      $usuario=$json->checkearEmail($_SESSION["email"]);
+      $foto= $registro->armarFoto($_FILES);
+      $registroUsuario=$json->cambioFoto($_SESSION["email"],$foto);
+
+      Logeo::seteoEditor($usuario,$bandera1);
+      redirect("perfil.php");
     }
   }elseif ($_POST['form']=="form2") {
     $bandera1="nombre";
-    $errores= validar_configuracion($_POST,$bandera1);
+    $errores= $validar->validar_configuracion($_POST,$bandera1);
       if(count($errores)==0){
-        $usuario=buscarNombreUsuario($_POST["nombre-de-usuario"]);
-         $registro=cambioNombre($_POST);
-        header("location:perfil.php");
-            exit;
+        $usuario=$json->checkearEmail($_SESSION["email"]);
+        $registroUsuario=$json->cambioNombre($_SESSION["email"], $_POST["nombre-de-usuario"]);
+        Logeo::seteoEditor($usuario,$bandera1);
+        redirect("perfil.php");
   }
   }
 }
@@ -47,10 +53,10 @@ if($_POST){
               <div class="foto_usuario">
                 <img src="imagenes/<?=$_SESSION["foto"];?>" class="card-img-top" alt="">
                 <div class="p-0 formavatar">
-                  <form  action="" method="POST">
+                  <form  action="" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="form" value="form1">
                     <div class="archivo_edit">
-                     <input type="file" name="foto" id="foto" value=" ">
+                     <input type="file" name="foto" id="foto" value="<?=(isset($errores["foto"]))?"" :persistir("foto");?>">
                      <br>
                      <?php if(isset($errores["foto"])):?>
                        <span class="errorperfil">

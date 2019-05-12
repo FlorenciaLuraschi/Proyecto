@@ -1,19 +1,19 @@
 <?php
 include_once 'includes/head.php';
-include_once 'controladores/validar_login.php';
-include_once 'controladores/validar_registro.php';
+// include_once 'controladores/validar_login.php';
+// include_once 'controladores/validar_registro.php';
+require_once("Autoload.php");
 if($_POST){
-  $errores= validarOlvidar($_POST);
+  $usuario = new Usuario($_POST["email"],$_POST["password"],$_POST["reconfi-password"]);
+  $errores= $validar->validarOlvidar($usuario);
+if(count($errores) == 0){
+  $usuarioEncontrado = $json->checkearEmail($usuario->getEmail());
 
-if(count($errores)==0){
-  $usuario=buscarEmail($_POST["email"]);
-
-  if ($usuario==null) {
+  if ($usuarioEncontrado == null) {
     $errores["email"]="Usuario no registrado";
   }else{
-    $registro=olvidarpass($_POST);
-    header("location:nuevopass.php");
-        exit;
+    $registro = $json->jsonOlvidarpass($usuario->getEmail(),$usuario->getPass());
+    redirect("nuevopass.php");
       }
     }
   }

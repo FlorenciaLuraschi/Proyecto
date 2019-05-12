@@ -1,23 +1,25 @@
 <?php
 include_once 'includes/head.php';
-include_once("controladores/validar_registro.php");
-include_once("controladores/validar_login.php");
+// include_once("controladores/validar_registro.php");
+// include_once("controladores/validar_login.php");
+require_once("Autoload.php");
+
   if ($_POST) {
-    $errores= validar($_POST);
+    $usuario= new Usuario($_POST["email"],$_POST["password"],$_POST["reconfi-password"],$_POST["nombre-de-usuario"],$_POST["pais"],$_FILES);
+    $errores=$validar->validacionUsuario($usuario);
     if (count($errores)==0) {
-      $usuario=checkearEmail($_POST["email"]);
-      if ($usuario!==null){
-          $errores["email"]= "El mail ingresado ya existe. Ingrese otro mail";
+      $usuarioEncontrado = $json->checkearEmail($usuario->getEmail());
+      if ($usuarioEncontrado !==null){
+          $errores["email"] = "El mail ingresado ya existe. Ingrese otro mail";
         }
-       $usuario=checkearUsuario($_POST["nombre-de-usuario"]);
-       if ($usuario !==null) {
+       $usuarioEncontrado = $json->checkearUsuario($usuario->getNombreUsuario());
+       if ($usuarioEncontrado !==null) {
           $errores["nombre-de-usuario"]= "El nombre de usuario ingresado ya exite. Ingrese otro nombre de usuario";
       }else{
-        $foto= armarFoto($_FILES);
-        $registro= armarRegistro($_POST, $foto);
-        guardar($registro);
-        header("location:index.php");
-        exit;
+        $foto = $registro->armarFoto($usuario->getFoto());
+        $registroUsuario = $registro->armarUsuario($usuario, $foto);
+        $json->guardar($registroUsuario);
+        redirect("index.php");
       }
     }
   }
@@ -39,7 +41,7 @@ include_once("controladores/validar_login.php");
     echo "</ul>";
     endif;?>
     <form class="formulario1" action="" method="post" enctype="multipart/form-data">
-      <h2>Create una cuenta para sociabilizar y aprender</h2>
+      <h2>Registrate en nuestra comunidad para jugar</h2>
       <!-- <label for="nombre" class="label1">Nombre</label>
       <input type="text" name="nombre" value="<?=(isset($errores["nombre"]))?"" :persistir("nombre");?>" class="field">
 
@@ -49,13 +51,13 @@ include_once("controladores/validar_login.php");
       <label for="nombre-de-usuario" class="label1">Nombre de Usuario</label>
       <input type="text" name="nombre-de-usuario" class="field" value="<?=(isset($errores["nombre-de-usuario"]))?"" :persistir("nombre-de-usuario");?>">
 
-      <label for="email" class="label1">Mail de referencia</label>
+      <label for="email" class="label1">Correo de referencia</label>
       <input type="email" name="email" value="<?=(isset($errores["email"]))?"" :persistir("email");?>" class="field">
 
       <label for="password" class="label1">Contraseña</label>
       <input type="password" name="password" value="" class="field">
       <small id="passwordHelpInline" class="text-muted smallpass">
-      Utiliza ocho caracteres como mínimo con una combinación de letras, números y símbolos
+      Utiliza 8 caracteres como mínimo combiando letras y números.
       </small><br><br>
 
       <label for="reconfi-password" class="label1">Reconfirmación de la contraseña</label>
@@ -75,22 +77,36 @@ include_once("controladores/validar_login.php");
              <option hidden value="">Seleccione su país</option>
              <optgroup label="America">
                <option value="Argentina">Argentina</option>
+               <option value="Bolivia">Bolivia</option>
                <option value="Brasil">Brasil</option>
-               <option value="Mexico">México</option>
-               <option value="Canada">Canada</option>
+               <option value="Chile">Chile</option>
                <option value="Colombia">Colombia</option>
+               <option value="Costa Rica">Costa Rica</option>
+               <option value="Cuba">Cuba</option>
+               <option value="Ecuador">Ecuador</option>
+               <option value="El Salvador">El Salvador</option>
+               <option value="Guatemala">Guatemala</option>
+               <option value="Honduras">Honduras</option>
+               <option value="Mexico">México</option>
+               <option value="Nicaragua">Nicaragua</option>
+               <option value="Panamá">Panamá</option>
+               <option value="Paraguay">Paraguay</option>
+               <option value="Puerto Rico">Puerto Rico</option>
+               <option value="Perú">Perú</option>
+               <option value="República Dominicana">República Dominicana</option>
+               <option value="Uruguay">Uruguay</option>
                <option value="Venezuela">Venezuela</option>
              </optgroup>
              <optgroup label="Europa">
                <option value="España">España</option>
-               <option value="Portugal">Portugal</option>
+               <!-- <option value="Portugal">Portugal</option>
                <option value="Francia">Francia</option>
                <option value="Italia">Italia</option>
                <option value="Alemania">Alemania</option>
                <option value="Holanda">Holanda</option>
-               <option value="Dinamarca">Dinamarca</option>
+               <option value="Dinamarca">Dinamarca</option> -->
              </optgroup>
-             <optgroup label="Africa">
+             <!-- <optgroup label="Africa">
                <option value="Sudafrica">Sudafrica</option>
                <option value="Kenia">Kenia</option>
                <option value="Camerun">Camerun</option>
@@ -103,7 +119,7 @@ include_once("controladores/validar_login.php");
                <option value="China">China</option>
                <option value="Japon">Japon</option>
                <option value="Taiwan">Taiwan</option>
-             </optgroup>
+             </optgroup> -->
            </select>
          </div>
          <br>
@@ -112,9 +128,9 @@ include_once("controladores/validar_login.php");
          </div>
          <br>
         <button type="submit" class="bottonacceder">Registrarme</button>
-        <ul class="listadeRegistro">
+        <!-- <ul class="listadeRegistro">
           <li class="Login"><a href="index.php">Ahora logueate!</a></li>
-          </ul>
+          </ul> -->
         </form>
 
     <?php include_once 'includes/footer.php' ?>

@@ -157,6 +157,6 @@
 .editinput{
   width: 250px;
 }
-.errorperfil span{
+.error_login span, .errorperfil span{
   color: #ff9301;
 }

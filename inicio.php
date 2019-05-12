@@ -1,9 +1,10 @@
 <?php
 include_once 'includes/head.php';
-include_once 'controladores/validar_login.php';
+require_once("Autoload.php");
+// include_once 'controladores/validar_login.php';
 if(!isset($_SESSION["email"])) {
-    header("location:index.php");
-    exit;
+     header("location:index.php");
+     exit;
 }
 ?>
 <title>Proyecto FloPaTin-Inicio</title>
