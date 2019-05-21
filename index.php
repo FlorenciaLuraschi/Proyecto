@@ -4,6 +4,7 @@ include_once 'includes/head.php';
 // include_once 'controladores/validar_registro.php';
 require_once("Autoload.php");
 if($_POST){
+
   $usuario = new Usuario($_POST["email"],$_POST["password"]);
   $errores_login = $validar->validacionLogin($usuario);
 
@@ -17,8 +18,8 @@ if(count($errores_login) == 0){
     }else{
       Logeo::seteoUsuario($usuarioEncontrado);
       if(isset($_POST["recordar"])){
-          Logeo::seteoCookie($usuarioEncontrado);
-        }
+          Logeo::seteoCookie($_POST);
+    }
     if (Logeo::validarUsuario()) {
         redirect("inicio.php");
       }else {
@@ -41,7 +42,7 @@ if(count($errores_login) == 0){
         <form class="formlogin" action="" method="post">
           <h2>Log in</h2>
           <label for="email" class="label1">Correo electrónico</label><br>
-          <input type="email" name="email" value="<?=isset($errores["email"])? "":persistir("email") ;?>" class="field" placeholder="ejemplo@dominio.com" required><br>
+          <input type="email" name="email" value="<?=(isset($errores["email"]))? "":persistir("email");?>" class="field" placeholder="ejemplo@dominio.com" required><br>
           <?php if(isset($errores_login["email"])):?>
             <span class="error_login">
               <?php echo $errores_login["email"];?>
@@ -73,7 +74,7 @@ if(count($errores_login) == 0){
             <button type="submit" class="bottonacceder">Iniciar sesión</button>
           </div>
             <ul class="listadeRegistro">
-              <li class="Registrese"><a href="formularioDeRegistracion.php">¿Todavía no estás registrados?</a></li>
+              <li class="Registrese"><a href="formularioDeRegistracion.php">¿Todavía no estás registrado?</a></li>
             </ul>
       </form>
       </div>
