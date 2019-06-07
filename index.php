@@ -4,12 +4,38 @@ include_once 'includes/head.php';
 // include_once 'controladores/validar_registro.php';
 require_once("Autoload.php");
 if($_POST){
+  $conexion = "MYSQL";
+//   if ($conexion == "JSON") {
+//     $usuario = new Usuario($_POST["email"],$_POST["password"]);
+//     $errores_login = $validar->validacionLogin($usuario);
+//
+//   if(count($errores_login) == 0){
+//     $usuarioEncontrado = $json->checkearEmail($usuario->getEmail());
+//     if ($usuarioEncontrado == null) {
+//       $errores_login["email"]="Usuario no registrado";
+//     }else{
+//       if(Logeo::verificarPassword($usuario->getPass(),$usuarioEncontrado["password"])===false){
+//         $errores_login["password"]="Error en los datos verifique.";
+//       }else{
+//         Logeo::seteoUsuario($usuarioEncontrado);
+//         if(isset($_POST["recordar"])){
+//             Logeo::seteoCookie($usuarioEncontrado);
+//           }
+//       if (Logeo::validarUsuario()) {
+//           redirect("inicio.php");
+//         }else {
+//           redirect("formularioDeRegistracion.php");
+//         }
+//       }
+//     }
+//   }
+// } else {
   $usuario = new Usuario($_POST["email"],$_POST["password"]);
   $errores_login = $validar->validacionLogin($usuario);
 
 if(count($errores_login) == 0){
-  $usuarioEncontrado = $json->checkearEmail($usuario->getEmail());
-  if ($usuarioEncontrado == null) {
+  $usuarioEncontrado = BaseMysql::checkearPorEmail($usuario->getEmail(), $pdo, 'users');
+  if ($usuarioEncontrado == false) {
     $errores_login["email"]="Usuario no registrado";
   }else{
     if(Logeo::verificarPassword($usuario->getPass(),$usuarioEncontrado["password"])===false){
@@ -28,6 +54,7 @@ if(count($errores_login) == 0){
   }
 }
 }
+//}
 ?>
 <title>Proyecto FloPaTin-Login</title>
 </head>

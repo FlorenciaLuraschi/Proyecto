@@ -146,8 +146,8 @@ function validar_configuracion($datos,$bandera1){
     }
     $nombre=$_FILES["foto"]["name"];
     $ext= pathinfo($nombre, PATHINFO_EXTENSION);
-    if ($ext !="jpg" && $ext !="png") {
-      $errores["foto"]="Debe ser un archivo jpg ó png";
+    if ($ext !="jpg" && $ext !="png" && $ext !="jpeg") {
+      $errores["foto"]="Debe ser un archivo jpg ó png ó jpeg";
     }
   }
 }else{
