@@ -12,11 +12,11 @@ class Logeo{
         return password_verify($password,$passwordHash);
     }
     static public function seteoUsuario($user){
-      $_SESSION["nombreUsuario"]=$user["nombreUsuario"];
+      $_SESSION["nombreUsuario"]=$user["name"];
       $_SESSION["email"]=$user["email"];
       $_SESSION["perfil"]=$user["perfil"];
-      $_SESSION["foto"]=$user["foto"];
-      $_SESSION["pais"]=$user["pais"];
+      $_SESSION["foto"]=$user["avatar"];
+      $_SESSION["pais"]=$user["country_id"];
       $_SESSION["fecharegistro"]=$user["fecharegistro"];
     }
     static public function seteoCookie($dato){
