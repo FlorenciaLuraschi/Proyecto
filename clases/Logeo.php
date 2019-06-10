@@ -35,7 +35,7 @@ class Logeo{
     }
     static public function seteoEditor($user,$bandera1){
       if($bandera1=== "avatar"){
-        $_SESSION["foto"]=$user["foto"];
+        $_SESSION["foto"]=$user["avatar"];
       }else{
         $_SESSION["nombreUsuario"]=$user["nombreUsuario"];
       }
